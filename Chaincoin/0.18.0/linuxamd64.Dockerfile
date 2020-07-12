@@ -15,9 +15,9 @@ ENV CHAINCOIN_SHA256 9cab11ba75ea4fb64474d4fea5c5b6851f9a25fe9b1d4f7fc9c12b9f190
 RUN set -ex \
 	&& cd /tmp \
 	&& wget -qO chaincoin.tar.gz "$CHAINCOIN_URL" \
-	&& echo "$CHAINCOIN_SHA256 chaincoin.tar.gz" | sha256sum -c - \
 	&& mkdir bin \
 	&& tar -xzvf chaincoin.tar.gz -C /tmp/bin --strip-components=2 "chaincoin-$CHAINCOIN_VERSION/bin/chaincoin-cli" "chaincoin-$CHAINCOIN_VERSION/bin/chaincoind" \
+	&& echo "chaincoin.tar.gz" | sha256sum \
 	&& cd bin \
 	&& wget -qO gosu "https://github.com/tianon/gosu/releases/download/1.11/gosu-amd64" \
 	&& echo "0b843df6d86e270c5b0f5cbd3c326a04e18f4b7f9b8457fa497b0454c4b138d7 gosu" | sha256sum -c -
