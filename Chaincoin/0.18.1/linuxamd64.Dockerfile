@@ -7,15 +7,16 @@ RUN set -ex \
 	&& apt-get install -qq --no-install-recommends ca-certificates dirmngr gosu gpg wget \
 	&& rm -rf /var/lib/apt/lists/*
 
-ENV CHAINCOIN_VERSION 0.18.0
+ENV CHAINCOIN_VERSION 0.18.1
 ENV CHAINCOIN_URL https://github.com/chaincoin/chaincoin/releases/download/v0.18/chaincoin-0.18.1-x86_64-linux-gnu.tar.gz
-ENV CHAINCOIN_SHA256 9cab11ba75ea4fb64474d4fea5c5b6851f9a25fe9b1d4f7fc9c12b9f190fed07
+ENV CHAINCOIN_SHA256 9a98fd81ee950e7beb29c38578b005f353c593c3b38be1a12c39684a3968db17
 
-# install litecoin binaries
+# install chaincoin binaries
 RUN set -ex \
 	&& cd /tmp \
 	&& wget -qO chaincoin.tar.gz "$CHAINCOIN_URL" \
 	&& mkdir bin \
+	&& echo "$CHAINCOIN_SHA256 chaincoin.tar.gz" | sha256sum -c - \
 	&& tar -xzvf chaincoin.tar.gz -C /tmp/bin --strip-components=2 "chaincoin-$CHAINCOIN_VERSION/bin/chaincoin-cli" "chaincoin-$CHAINCOIN_VERSION/bin/chaincoind" \
 	&& echo "chaincoin.tar.gz" | sha256sum \
 	&& cd bin \
