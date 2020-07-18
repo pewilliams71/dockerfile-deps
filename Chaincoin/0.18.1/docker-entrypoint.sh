@@ -29,6 +29,7 @@ if [[ "$1" == "chaincoin-cli" || "$1" == "chaincoin-tx" || "$1" == "chaincoind" 
 	rpcallowip=::/0
 	${BITCOIN_EXTRA_ARGS}
 	EOF
+
 	chown bitcoin:bitcoin "$BITCOIN_DATA/chaincoin.conf"
 
 	if [[ "${BITCOIN_TORCONTROL}" ]]; then
