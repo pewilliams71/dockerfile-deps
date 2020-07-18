@@ -7,12 +7,20 @@ if [[ "$1" == "chaincoin-cli" || "$1" == "chaincoin-tx" || "$1" == "chaincoind" 
 	CONFIG_PREFIX=""
 	if [[ "${BITCOIN_NETWORK}" == "regtest" ]]; then
 		CONFIG_PREFIX=$'regtest=1\n[regtest]'
-	fi
-	if [[ "${BITCOIN_NETWORK}" == "testnet" ]]; then
+	elif [[ "${BITCOIN_NETWORK}" == "testnet" ]]; then
 		CONFIG_PREFIX=$'testnet=1\n[test]'
-	fi
-	if [[ "${BITCOIN_NETWORK}" == "mainnet" ]]; then
+	elif [[ "${BITCOIN_NETWORK}" == "mainnet" ]]; then
 		CONFIG_PREFIX=$'mainnet=1\n[main]'
+	else 
+		BITCOIN_NETWORK=""
+	fi
+
+	if [[ "$BITCOIN_WALLETDIR" ]] && [[ "$BITCOIN_NETWORK" ]]; then
+		NL=$'\n'
+		WALLETDIR="$BITCOIN_WALLETDIR/${BITCOIN_NETWORK}"
+		mkdir -p "$WALLETDIR"	
+		chown -R bitcoin:bitcoin "$WALLETDIR"
+		CONFIG_PREFIX="${CONFIG_PREFIX}${NL}walletdir=${WALLETDIR}${NL}"
 	fi
 
 	cat <<-EOF > "$BITCOIN_DATA/chaincoin.conf"
@@ -40,8 +48,8 @@ if [[ "$1" == "chaincoin-cli" || "$1" == "chaincoin-tx" || "$1" == "chaincoind" 
 	# we do not update group ownership here, in case users want to mount
 	# a host directory and still retain access to it
 	chown -R bitcoin "$BITCOIN_DATA"
-	ln -sfn "$BITCOIN_DATA" /home/bitcoin/.chaincoin
-	chown -h bitcoin:bitcoin /home/bitcoin/.chaincoin
+	ln -sfn "$BITCOIN_DATA" /home/bitcoin/.chaincoincore
+	chown -h bitcoin:bitcoin /home/bitcoin/.chaincoincore
 
 	exec gosu bitcoin "$@"
 else
