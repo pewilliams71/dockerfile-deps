@@ -27,8 +27,8 @@ RUN chmod +x /usr/local/bin/gosu && groupadd -r bitcoin && useradd -r -m -g bitc
 ENV BITCOIN_DATA /data
 RUN mkdir "$BITCOIN_DATA" \
 	&& chown -R bitcoin:bitcoin "$BITCOIN_DATA" \
-	&& ln -sfn "$BITCOIN_DATA" /home/bitcoin/.chaincoin \
-	&& chown -h bitcoin:bitcoin /home/bitcoin/.chaincoin
+	&& ln -sfn "$BITCOIN_DATA" /home/bitcoin/.chaincoincore \
+	&& chown -h bitcoin:bitcoin /home/bitcoin/.chaincoincore
 
 VOLUME /data
 
