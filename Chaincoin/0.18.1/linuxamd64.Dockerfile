@@ -35,7 +35,7 @@ RUN mkdir "$BITCOIN_DATA" \
 VOLUME /data
 
 COPY docker-entrypoint.sh /entrypoint.sh
-ENTRYPOINT ["/entrypoint.sh"]
+ENTRYPOINT ["bash","/entrypoint.sh"]
 
 EXPOSE 11994 11995 21994 21995 
 CMD ["chaincoind"]
