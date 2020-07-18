@@ -1,7 +1,5 @@
 FROM debian:stretch-slim as builder
 
-RUN groupadd -r bitcoin && useradd -r -m -g bitcoin bitcoin
-
 RUN set -ex \
 	&& apt-get update \
 	&& apt-get install -qq --no-install-recommends ca-certificates dirmngr gosu gpg wget \
@@ -35,7 +33,7 @@ RUN mkdir "$BITCOIN_DATA" \
 VOLUME /data
 
 COPY docker-entrypoint.sh /entrypoint.sh
-ENTRYPOINT ["bash","/entrypoint.sh"]
+ENTRYPOINT ["/entrypoint.sh"]
 
 EXPOSE 11994 11995 21994 21995 
 CMD ["chaincoind"]
