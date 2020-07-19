@@ -36,6 +36,7 @@ RUN mkdir "$BITCOIN_DATA" \
 VOLUME /data
 
 COPY docker-entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
 ENTRYPOINT ["bash","/entrypoint.sh"]
 
 EXPOSE 11994 11995 21994 21995 18443 18444
