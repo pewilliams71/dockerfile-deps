@@ -34,7 +34,7 @@ RUN mkdir "$BITCOIN_DATA" \
 	&& chown -h bitcoin:bitcoin /home/bitcoin/.chaincoincore
 
 VOLUME /data
-
+chmod +x docker-entrypoint.sh
 COPY docker-entrypoint.sh /entrypoint.sh
 ENTRYPOINT ["bash","/entrypoint.sh"]
 
