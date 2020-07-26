@@ -19,7 +19,7 @@ if [[ "$1" == "chaincoin-cli" || "$1" == "chaincoin-tx" || "$1" == "chaincoind" 
 	${CONFIG_PREFIX}
 	# Entry Point v1
 	printtoconsole=1
-	#rpcallowip=::/0
+	rpcallowip=::/0
 	${BITCOIN_EXTRA_ARGS}
 
 	EOF
