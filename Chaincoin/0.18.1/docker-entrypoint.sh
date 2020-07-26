@@ -17,11 +17,9 @@ if [[ "$1" == "chaincoin-cli" || "$1" == "chaincoin-tx" || "$1" == "chaincoind" 
 
 	cat <<-EOF > "$BITCOIN_DATA/chaincoin.conf"
 	${CONFIG_PREFIX}
-	# Entry Point v1
 	printtoconsole=1
 	rpcallowip=::/0
 	${BITCOIN_EXTRA_ARGS}
-
 	EOF
 	chown bitcoin:bitcoin "$BITCOIN_DATA/chaincoin.conf"
 
