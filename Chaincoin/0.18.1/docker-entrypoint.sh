@@ -4,17 +4,6 @@ set -e
 if [[ "$1" == "chaincoin-cli" || "$1" == "chaincoin-tx" || "$1" == "chaincoind" || "$1" == "test_chaincoin" ]]; then
 	mkdir -p "$BITCOIN_DATA"
 
-	CONFIG_PREFIX=""
-    if [[ "${BITCOIN_NETWORK}" == "regtest" ]]; then
-        CONFIG_PREFIX=$'regtest=1\n[regtest]'
-    fi
-    if [[ "${BITCOIN_NETWORK}" == "testnet" ]]; then
-        CONFIG_PREFIX=$'testnet=1\n[test]'
-    fi
-    if [[ "${BITCOIN_NETWORK}" == "mainnet" ]]; then
-        CONFIG_PREFIX=$'mainnet=1\n[main]'
-    fi
-
 	cat <<-EOF > "$BITCOIN_DATA/chaincoin.conf"
 	${CONFIG_PREFIX}
 	printtoconsole=1
