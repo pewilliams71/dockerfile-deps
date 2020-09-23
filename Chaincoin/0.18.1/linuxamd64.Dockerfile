@@ -35,5 +35,5 @@ VOLUME /data
 COPY docker-entrypoint.sh /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
 
-EXPOSE 11994 11995 21994 21995 18443 18444
+EXPOSE 11994 11995 21994 21995 
 CMD ["chaincoind"]
