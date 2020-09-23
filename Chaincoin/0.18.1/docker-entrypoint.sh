@@ -23,6 +23,18 @@ if [[ "$1" == "chaincoin-cli" || "$1" == "chaincoin-tx" || "$1" == "chaincoind" 
 	EOF
 	chown bitcoin:bitcoin "$BITCOIN_DATA/chaincoin.conf"
 
+	if [[ "${BITCOIN_TORCONTROL}" ]]; then
+		# Because bitcoind only accept torcontrol= host as an ip only, we resolve it here and add to config
+		TOR_CONTROL_HOST=$(echo ${BITCOIN_TORCONTROL} | cut -d ':' -f 1)
+		TOR_CONTROL_PORT=$(echo ${BITCOIN_TORCONTROL} | cut -d ':' -f 2)
+		if [[ "$TOR_CONTROL_HOST" ]] && [[ "$TOR_CONTROL_PORT" ]]; then
+			TOR_IP=$(getent hosts $TOR_CONTROL_HOST | cut -d ' ' -f 1)
+			echo "torcontrol=$TOR_IP:$TOR_CONTROL_PORT" >> "$BITCOIN_DATA/chaincoin.conf"
+			echo "Added "torcontrol=$TOR_IP:$TOR_CONTROL_PORT" to $BITCOIN_DATA/chaincoin.conf"
+		else
+			echo "Invalid BITCOIN_TORCONTROL"
+		fi
+	fi
 	# ensure correct ownership and linking of data directory
 	# we do not update group ownership here, in case users want to mount
 	# a host directory and still retain access to it
