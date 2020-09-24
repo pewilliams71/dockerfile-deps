@@ -21,14 +21,15 @@ RUN set -ex \
 FROM debian:stretch-slim
 COPY --from=builder "/tmp/bin" /usr/local/bin
 
-RUN chmod +x /usr/local/bin/gosu && groupadd -r bitcoin && useradd -r -m -g bitcoin bitcoin
+#RUN chmod +x /usr/local/bin/gosu && groupadd -r bitcoin && useradd -r -m -g bitcoin bitcoin
 
 # create data directory
 ENV BITCOIN_DATA /data
 RUN mkdir "$BITCOIN_DATA" \
-	&& chown -R bitcoin:bitcoin "$BITCOIN_DATA" \
-	&& ln -sfn "$BITCOIN_DATA" /home/bitcoin/.chaincoincore \
-	&& chown -h bitcoin:bitcoin /home/bitcoin/.chaincoincore
+	&& ln -sfn "$BITCOIN_DATA" /home/bitcoin/.chaincoincore 
+
+#		&& chown -R bitcoin:bitcoin "$BITCOIN_DATA" \
+#	&& chown -h bitcoin:bitcoin /home/bitcoin/.chaincoincore
 
 VOLUME /data
 
