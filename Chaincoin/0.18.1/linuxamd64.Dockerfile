@@ -1,8 +1,11 @@
 FROM debian:stretch-slim as builder
 
+RUN groupadd -r bitcoin && useradd -r -m -g bitcoin bitcoin
+
 RUN set -ex \
-    && apt-get update \
-    && apt-get install -qq --no-install-recommends ca-certificates dirmngr gosu wget
+	&& apt-get update \
+	&& apt-get install -qq --no-install-recommends ca-certificates dirmngr gosu gpg wget \
+	&& rm -rf /var/lib/apt/lists/*
 
 ENV CHAINCOIN_VERSION 0.18.1
 ENV CHAINCOIN_URL https://github.com/chaincoin/chaincoin/releases/download/v0.18/chaincoin-0.18.1-x86_64-linux-gnu.tar.gz
@@ -26,14 +29,13 @@ RUN chmod +x /usr/local/bin/gosu && groupadd -r bitcoin && useradd -r -m -g bitc
 # create data directory
 ENV BITCOIN_DATA /data
 RUN mkdir "$BITCOIN_DATA" \
-    && chown -R bitcoin:bitcoin "$BITCOIN_DATA" \
-    && ln -sfn "$BITCOIN_DATA" /home/bitcoin/.chaincoincore 
-    && chown -h bitcoin:bitcoin /home/bitcoin/.chaincoincore
-
+	&& chown -R bitcoin:bitcoin "$BITCOIN_DATA" \
+	&& ln -sfn "$BITCOIN_DATA" /home/bitcoin/.chaincoincore \
+	&& chown -h bitcoin:bitcoin /home/bitcoin/.chaincoincore
 VOLUME /data
 
 COPY docker-entrypoint.sh /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
 
-EXPOSE 11994 11995 21994 21995 
+EXPOSE 11994 11995 21994 21995
 CMD ["chaincoind"]
